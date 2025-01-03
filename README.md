@@ -1,3 +1,3 @@
 #### Login with:
 - Username: admin
-- Password: password
+- Password: pastibisa
