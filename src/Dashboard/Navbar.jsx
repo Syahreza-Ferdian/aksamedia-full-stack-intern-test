@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../Auth/AuthProvider";
 import { useTheme } from "../Helper/ThemeProvider";
 import ModalTemplate from "../Components/Modal";
+import { saveToLocalStorage } from "../Helper/localStorageHelper";
 
 const Navbar = () => {
     const { user, setUser, logout } = useAuth(); // Add setUser to update user data
@@ -25,7 +26,10 @@ const Navbar = () => {
             return;
         }
 
-        setUser({ ...user, name: formData.nama });
+        const updatedUser = { ...user, name: formData.nama };
+        setUser(updatedUser);
+        saveToLocalStorage("user", updatedUser);
+        
         setIsEditModalOpen(false);
         setIsDropdownOpen(false);
     };
@@ -90,6 +94,7 @@ const Navbar = () => {
                 isOpen={isEditModalOpen}
                 onClose={() => setIsEditModalOpen(false)}
                 title="Edit Profile"
+                submitLabel="Save"
                 onSubmit={handleSaveUserNameUpdate}
             >
                 <form>

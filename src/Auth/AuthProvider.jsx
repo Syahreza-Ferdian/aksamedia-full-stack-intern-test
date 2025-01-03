@@ -13,34 +13,33 @@ const api = axios.create({
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
-        const storedUser = getFromLocalStorage("user");
-        return storedUser ?? null;
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
     });
 
     const [authMessage, setAuthMessage] = useState("");
 
     useEffect(() => {
         if (user) {
-            saveToLocalStorage("user", user);
+            localStorage.setItem("user", JSON.stringify(user));
         } else {
-            removeFromLocalStorage("user");
+            localStorage.removeItem("user");
         }
     }, [user]);
 
     const login = async (username, password) => {
         try {
             const response = await api.post("/login", { username, password });
-    
+
             if (response.data.status === "success") {
-                const token = response.data.data.token;
-                const admin = response.data.data.admin;
-    
-                const userData = { username, token, admin };
-                setUser(userData);
+                const { token, admin } = response.data.data;
+                const userData = { username, admin, name: "Admin"};
+
                 saveToLocalStorage("token", token);
-    
+                
+                setUser(userData);
                 api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    
+
                 setAuthMessage("");
                 return true;
             } else {
@@ -48,11 +47,7 @@ export const AuthProvider = ({ children }) => {
                 return false;
             }
         } catch (error) {
-            if (error.response && error.response.data) {
-                setAuthMessage(error.response.data.message || "Login failed.");
-            } else {
-                setAuthMessage("An unexpected error occurred.");
-            }
+            setAuthMessage(error.response?.data?.message || "An unexpected error occurred.");
             return false;
         }
     };
