@@ -317,26 +317,26 @@ const Dashboard = () => {
                                 )}
                             </tbody>
                         </table>
+                    </div>
 
-                        <div className="mt-4 flex justify-between items-center">
-                            <button
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
-                            >
-                                Previous
-                            </button>
-                            <span>
-                                Page {currentPage} of {totalPages}
-                            </span>
-                            <button
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
-                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
-                            >
-                                Next
-                            </button>
-                        </div>
+                    <div className="mt-4 flex justify-between items-center">
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                        >
+                            Previous
+                        </button>
+                        <span>
+                            Page {currentPage} of {totalPages}
+                        </span>
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                        >
+                            Next
+                        </button>
                     </div>
                 </>
             )}
